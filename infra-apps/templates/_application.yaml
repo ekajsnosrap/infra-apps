@@ -19,8 +19,6 @@ spec:
     targetRevision: {{ $app.targetRevision | quote }}
     helm:
       releaseName: {{ $app.name | quote }}
-      values: |-
-        nameOverride: {{- $app.name | quote }}
       {{- if $app.valueFiles }}
       valueFiles: 
       {{- range $app.valueFiles }}
