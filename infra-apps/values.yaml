@@ -102,6 +102,9 @@ ingressNginx:
   repoURL: https://kubernetes.github.io/ingress-nginx
   chart: ingress-nginx
   targetRevision: 4.11.2
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
   values: {}
   valueFiles:
   - $values/charts/ingress-nginx/values.yaml
@@ -125,6 +128,7 @@ kubePrometheusStack:
   syncPolicy:
     syncOptions:
       - ServerSideApply=true
+      - CreateNamespace=true
   valueFiles:
   - $values/charts/kube-prometheus-stack/values.yaml
   externalValues: {
