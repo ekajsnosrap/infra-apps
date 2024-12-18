@@ -11,9 +11,3 @@ The following apps have been provisioned in Argo CD:
 {{ if .Values.kubePrometheusStack.enabled }}
 * kube-prometheus-stack
 {{ end }}
-{{ if .Values.rbacManager.enabled }}
-* rbac-manager
-{{ end }}
-{{ if .Values.velero.enabled }}
-* Velero
-{{ end }}
