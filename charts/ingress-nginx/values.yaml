@@ -1,0 +1,3 @@
+controller:
+  ingressClass: "nginx"
+  replicaCount: 2

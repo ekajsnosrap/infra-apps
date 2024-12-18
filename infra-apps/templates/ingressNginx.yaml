@@ -1,0 +1,6 @@
+{{ if .Values.ingressNginx.enabled }}
+{{ $app := unset .Values.ingressNginx "enabled" }}{{ $name := default $app.namespace $app.name }}
+
+{{ template "argoconfig.application.tpl" (dict "name" $name "app" $app) }}
+
+{{ end }}

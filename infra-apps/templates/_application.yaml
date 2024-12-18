@@ -1,0 +1,47 @@
+{{- define "argoconfig.application.tpl" -}}
+{{ $app := .app }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $app.name }}
+  namespace: argocd
+  {{- with $app.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if $app.project }}
+  project: {{ $app.project | quote }}
+  {{- end }}
+  sources:
+  - repoURL: {{ $app.repoURL | quote }}
+    chart: {{ $app.chart | quote }}
+    targetRevision: {{ $app.targetRevision | quote }}
+    helm:
+      releaseName: {{ $app.name | quote }}
+      values: |-
+        nameOverride: {{- $app.name | quote }}
+      {{- if $app.valueFiles }}
+      valueFiles: 
+      {{- range $app.valueFiles }}
+      - {{ . }}
+      {{- end }}
+      {{- end }}
+  {{- if $app.externalValues }}
+  - repoURL: {{ $app.externalValues.repoURL | quote }}
+    targetRevision: {{ $app.externalValues.targetRevision | quote }}
+    ref: {{ $app.externalValues.ref | quote }}
+  {{- end }}
+  {{- if $app.destination }}
+  destination:
+    {{- $app.destination | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $app.syncPolicy }}
+  syncPolicy:
+    {{- $app.syncPolicy | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $app.ignoreDifferences }}
+  ignoreDifferences:
+    {{ $app.ignoreDifferences | toYaml | nindent 4 }}
+  {{- end }}
+{{- end -}}

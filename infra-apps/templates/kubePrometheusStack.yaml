@@ -1,0 +1,6 @@
+{{ if .Values.kubePrometheusStack.enabled }}
+{{ $app := unset .Values.kubePrometheusStack "enabled" }}{{ $name := default $app.namespace $app.name }}
+
+{{ template "argoconfig.application.tpl" (dict "name" $name "app" $app) }}
+
+{{ end }}
